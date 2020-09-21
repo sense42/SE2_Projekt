@@ -3,7 +3,7 @@ package model.dao;
 public class DBException extends Exception {
     private String text;
 
-    public DBException( String text) {
+    public DBException(String text) {
         this.text = text;
     }
 

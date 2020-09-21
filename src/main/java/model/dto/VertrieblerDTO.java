@@ -1,13 +1,13 @@
 package model.dto;
 
-public class VertrieblerDTO extends UserDTO{
+public class VertrieblerDTO extends UserDTO {
     private String email;
 
-    public VertrieblerDTO(){
+    public VertrieblerDTO() {
         email = "";
     }
 
-    public VertrieblerDTO(String email){
+    public VertrieblerDTO(String email) {
         this.email = email;
     }
 

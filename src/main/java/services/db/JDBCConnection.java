@@ -8,30 +8,25 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class JDBCConnection {
-
-    // TODO: logging, catch/throw, aufbau bereinigen.
-
+    private static JDBCConnection connection = null;
     private final String url = "jdbc:postgresql://dumbo.inf.h-brs.de:5432/fduman2s";
     private final String password = "fduman2s";
     private final String user = "fduman2s";
     private final String schema = "carlook";
-
-    private static JDBCConnection connection = null;
     private Connection conn;
-
-
-    public static JDBCConnection getInstance(){
-        if (connection == null){
-            connection = new JDBCConnection();
-        }
-        return connection;
-    }
 
     private JDBCConnection() {
         this.initConnection();
     }
 
-    public void initConnection(){
+    public static JDBCConnection getInstance() {
+        if (connection == null) {
+            connection = new JDBCConnection();
+        }
+        return connection;
+    }
+
+    public void initConnection() {
         try {
             DriverManager.registerDriver(new org.postgresql.Driver());
         } catch (SQLException throwables) {
@@ -40,7 +35,7 @@ public class JDBCConnection {
         this.openConnection();
     }
 
-    public void openConnection(){
+    public void openConnection() {
         try {
 
             Properties properties = new Properties();
@@ -80,7 +75,7 @@ public class JDBCConnection {
 
     public PreparedStatement getPreparedStatement(String sql) throws DBException {
         try {
-            if (this.conn.isClosed()){
+            if (this.conn.isClosed()) {
                 this.openConnection();
             }
             return this.conn.prepareStatement(sql);
@@ -89,6 +84,4 @@ public class JDBCConnection {
             throw new DBException("Fehler bei dem Versuch eine Verbindung mit der Datenbank aufzubauen!");
         }
     }
-
-
 }

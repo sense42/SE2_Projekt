@@ -1,7 +1,6 @@
 package model.dao;
 
 import model.dto.EndkundeDTO;
-import model.dto.UserDTO;
 import model.dto.VertrieblerDTO;
 import services.db.JDBCConnection;
 
@@ -17,7 +16,7 @@ public class VertrieblerDAO {
 
     private static VertrieblerDAO vertrieblerDAO;
 
-    public static VertrieblerDAO getInstance(){
+    public static VertrieblerDAO getInstance() {
         if (vertrieblerDAO == null) {
             vertrieblerDAO = new VertrieblerDAO();
         }
@@ -31,9 +30,10 @@ public class VertrieblerDAO {
         try {
             preparedStatement = JDBCConnection.getInstance().getPreparedStatement(
                     "INSERT INTO carlook.vertriebler(email) VALUES(?)");
-            preparedStatement.setString(1,vertrieblerDTO.getEmail());
+            preparedStatement.setString(1, vertrieblerDTO.getEmail());
 
             preparedStatement.executeUpdate();
+            JDBCConnection.getInstance().closeConnection();
         } catch (SQLException | DBException throwables) {
             Logger.getLogger(JDBCConnection.class.getName()).log(Level.SEVERE, "saveVertriebler", throwables);
             throw new DBException("Ein unerwarteter Fehler ist beim Speichern des Vertrieblers aufgetreten!");
@@ -42,22 +42,27 @@ public class VertrieblerDAO {
 
     public List<VertrieblerDTO> getAll() throws DBException {
         ResultSet rs;
-        List <VertrieblerDTO> list = new ArrayList<>();
+        List<VertrieblerDTO> list = new ArrayList<>();
 
         try {
             rs = JDBCConnection.getInstance().getStatement().executeQuery("SELECT * FROM carlook.vertriebler");
 
-            while (rs != null && rs.next()){
+            while (rs != null && rs.next()) {
                 VertrieblerDTO vertriebler = new VertrieblerDTO();
                 vertriebler.setEmail(rs.getString(1));
 
                 list.add(vertriebler);
             }
+            JDBCConnection.getInstance().closeConnection();
         } catch (SQLException | DBException throwables) {
             Logger.getLogger(JDBCConnection.class.getName()).log(Level.SEVERE, "getAll", throwables);
             throw new DBException("Bei dem laden der Vertriblerdaten ist ein Fehler aufgetreten.");
         }
         return list;
+    }
+
+    public Boolean contains(List<EndkundeDTO> all, String vertrieblerMail){
+        return all.stream().filter(u -> u.getEmail().equals(vertrieblerMail)).findFirst().isPresent();
     }
 
 }

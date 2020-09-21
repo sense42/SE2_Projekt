@@ -15,6 +15,13 @@ public class UserDTO {
     }
 
 
+    public UserDTO(String email, String password, String vorname, String nachname) {
+        this.email = email;
+        this.password = password;
+        this.vorname = vorname;
+        this.nachname = nachname;
+    }
+
     public String getNachname() {
         return nachname;
     }
@@ -45,12 +52,5 @@ public class UserDTO {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public UserDTO(String email, String password, String vorname, String nachname) {
-        this.email = email;
-        this.password = password;
-        this.vorname = vorname;
-        this.nachname = nachname;
     }
 }

@@ -12,20 +12,24 @@ import java.io.File;
 
 public class CarLookPageHeader extends VerticalLayout {
     Label smallHeader;
+
     public CarLookPageHeader(String s) {
         Label headerLabel = new Label("<font size =\"7\" style = \"font-family\": \"Courier\">CarLook", ContentMode.HTML);
 
-//        String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
-//        FileResource resource = new FileResource(new File(basepath + "/WEB-INF/images/logo.png"));
-//        Image image = new Image(null, resource);
+        String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+        FileResource resource = new FileResource(new File(basepath + "/VAADIN/WEB-INF/images/Logo.png"));
+        Image image = new Image(null, resource);
+        image.setWidth(500, Unit.PIXELS);
+        image.setHeight(225, Unit.PIXELS);
 
-        smallHeader = new Label ("<font size =\"5\" style = \"font-family\": \"Courier\">" + s +"", ContentMode.HTML);
+        smallHeader = new Label("<font size =\"5\" style = \"font-family\": \"Courier\">" + s + "", ContentMode.HTML);
         this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        this.addComponents(headerLabel,smallHeader);
-        this.setSizeUndefined();
+        this.addComponents(image, headerLabel, smallHeader);
+
+//        this.setSizeUndefined();
     }
 
-    public void setSmallHeaderString(String s){
-        smallHeader.setValue("<font size =\"5\" style = \"font-family\": \"Courier\">" + s +"");
+    public void setSmallHeaderString(String s) {
+        smallHeader.setValue("<font size =\"5\" style = \"font-family\": \"Courier\">" + s + "");
     }
 }

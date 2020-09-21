@@ -1,15 +1,17 @@
 package gui.ui;
 
+import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.*;
+import com.vaadin.server.VaadinSession;
+import com.vaadin.ui.UI;
 import gui.view.*;
+import model.dto.UserDTO;
 import services.util.Views;
-
 
 import javax.servlet.annotation.WebServlet;
 
@@ -22,10 +24,24 @@ import javax.servlet.annotation.WebServlet;
  */
 @Theme("mytheme")
 @Title("CarLook")
+@PreserveOnRefresh
 public class MyUI extends UI {
+
+    private UserDTO user = null;
+
+    public UserDTO getUser(){
+        return user;
+    }
+
+    public void setUser(UserDTO user){
+        this.user = user;
+    }
+
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
+        System.out.println("LOG: neues UI-Objekt erzeugt. Session-ID =" + VaadinSession.getCurrent().toString());
+
         Navigator navigator = new Navigator(this, this);
 
         navigator.addView(Views.MAIN, RegisterView.class);
@@ -36,7 +52,6 @@ public class MyUI extends UI {
         navigator.addView(Views.INSERATE, InserateView.class);
 
         UI.getCurrent().getNavigator().navigateTo(Views.MAIN);
-
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

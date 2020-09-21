@@ -1,14 +1,14 @@
 package model.dto;
 
-public class EndkundeDTO extends UserDTO{
+public class EndkundeDTO extends UserDTO {
 
     private String email;
 
-    public EndkundeDTO(){
+    public EndkundeDTO() {
         email = "";
     }
 
-    public EndkundeDTO(String email){
+    public EndkundeDTO(String email) {
         this.email = email;
     }
 

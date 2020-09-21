@@ -63,6 +63,10 @@ public class InseratDTO {
         this.email = email;
     }
 
+    @Override
+    public String toString() {
+        return this.getMarke();
+    }
 
 
 }

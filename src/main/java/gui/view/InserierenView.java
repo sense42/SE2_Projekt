@@ -1,11 +1,13 @@
 package gui.view;
 
+import com.vaadin.navigator.View;
+import com.vaadin.ui.VerticalLayout;
 import gui.components.CarLookView;
 
-public class InserierenView extends CarLookView {
+public class InserierenView extends VerticalLayout implements View {
 
-    public void setup(){
-        super.setup();
+    public void setup() {
+
     }
 
 }
