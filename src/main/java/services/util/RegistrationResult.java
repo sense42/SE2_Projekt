@@ -13,20 +13,19 @@ public enum RegistrationResult {
     SURNAME_EMPTY("Bitte geben Sie Ihren Nachnamen ein."),
     SURNAME_SHORT("Dieser Nachname ist zu kurz."),
 
-    REGISTRATION_SUCCEEDED("Registrierung erfolgreich! Sie können sich nun einloggen."),
     VERTRIEBLER_REGISTERED("Registrierung als Vertriebler erfolgreich! Sie können sich nun einloggen."),
     ENDKUNDE_REGISTERED("Registrierung als Endkunde erfolgreich! Sie können sich nun einloggen."),
 
     UNEXPECTED_ERROR("Ein unerwarteter Fehler ist aufgetreten.");
 
 
-    private String message;
+    private final String message;
 
-    RegistrationResult(String message){
+    RegistrationResult(String message) {
         this.message = message;
     }
 
-    public String getMessage(){
+    public String getMessage() {
         return this.message;
     }
 }

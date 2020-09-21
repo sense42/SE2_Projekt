@@ -28,27 +28,28 @@ public class UserDAO {
             preparedStatement = JDBCConnection.getInstance().getPreparedStatement(
                     "INSERT INTO carlook.user(email, passwort, vorname, nachname) VALUES(?,?,?,?)");
 
-        preparedStatement.setString(1, user.getEmail());
-        preparedStatement.setString(2, user.getPassword());
-        preparedStatement.setString(3, user.getVorname());
-        preparedStatement.setString(4, user.getNachname());
+            preparedStatement.setString(1, user.getEmail());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(3, user.getVorname());
+            preparedStatement.setString(4, user.getNachname());
 
-        preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
 
+            JDBCConnection.getInstance().closeConnection();
         } catch (Exception throwables) {
             Logger.getLogger(JDBCConnection.class.getName()).log(Level.SEVERE, "saveUser", throwables);
             throw new DBException("Bei dem speichern des Nutzers ist ein Fehler aufgetreten.");
         }
     }
 
-    public List <UserDTO> getAll() throws DBException {
+    public List<UserDTO> getAll() throws DBException {
         ResultSet rs;
-        List <UserDTO> list = new ArrayList<>();
+        List<UserDTO> list = new ArrayList<>();
 
         try {
             rs = JDBCConnection.getInstance().getStatement().executeQuery("SELECT * FROM carlook.user");
 
-            while (rs != null && rs.next()){
+            while (rs != null && rs.next()) {
                 UserDTO user = new UserDTO();
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("passwort"));
@@ -56,6 +57,8 @@ public class UserDAO {
                 user.setNachname(rs.getString("nachname"));
                 list.add(user);
             }
+
+            JDBCConnection.getInstance().closeConnection();
         } catch (SQLException | DBException throwables) {
             Logger.getLogger(JDBCConnection.class.getName()).log(Level.SEVERE, "getAll", throwables);
             throw new DBException("Bei dem laden der Nutzerdaten ist ein Fehler aufgetreten.");
@@ -63,7 +66,7 @@ public class UserDAO {
         return list;
     }
 
-    public UserDTO getUser(String email){
+    public UserDTO getUser(String email) throws DBException {
         ResultSet rs;
         PreparedStatement preparedStatement;
         UserDTO user = null;
@@ -72,25 +75,40 @@ public class UserDAO {
 //        rs = JDBCConnection.getInstance().getStatement().executeQuery("SELECT * FROM user WHERE user.email = ?");
 
             preparedStatement.setString(1, email);
-
             preparedStatement.execute();
-
             rs = preparedStatement.getResultSet();
 
             user = new UserDTO();
-            rs.next();
-            user.setEmail(rs.getString(1));
-            user.setPassword(rs.getString(2));
-            user.setVorname(rs.getString(3));
-            user.setNachname(rs.getString(4));
-
-
-        } catch (DBException e) {
-            e.printStackTrace();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            if (rs.next()) {
+                user.setEmail(rs.getString(1));
+                user.setPassword(rs.getString(2));
+                user.setVorname(rs.getString(3));
+                user.setNachname(rs.getString(4));
+            }
+            else {
+                return null;
+            }
+            JDBCConnection.getInstance().closeConnection();
+        } catch (SQLException | DBException throwables){
+            Logger.getLogger(JDBCConnection.class.getName()).log(Level.SEVERE, "getUser", throwables);
+            throw new DBException("Bei dem laden des Nutzers ist ein Fehler aufgetreten.");
         }
         return user;
+    }
+
+    public void deleteUser(String email) throws DBException {
+        try {
+            PreparedStatement preparedStatement = JDBCConnection.getInstance().getPreparedStatement("DELETE FROM carlook.user WHERE carlook.user.email = ?");
+
+            preparedStatement.setString(1,email);
+            preparedStatement.execute();
+
+            JDBCConnection.getInstance().closeConnection();
+        } catch (SQLException | DBException throwables){
+            Logger.getLogger(JDBCConnection.class.getName()).log(Level.SEVERE, "deleteUser", throwables);
+            throw new DBException("Bei dem löschen des Nutzers ist ein Fehler aufgetreten.");
+        }
+
     }
 
 }

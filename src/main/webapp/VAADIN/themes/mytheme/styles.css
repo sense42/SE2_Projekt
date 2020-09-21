@@ -15203,3 +15203,11 @@ div.v-layout.v-horizontal.v-widget {
 	width: 19px;
 	overflow: hidden;
 }
+
+.mytheme .my-combo .v-filterselect-button {
+	display: none;
+}
+
+.mytheme .my-combo .v-filterselect-input {
+	padding-right: 0px;
+}

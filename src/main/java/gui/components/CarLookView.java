@@ -10,7 +10,7 @@ public class CarLookView implements View {
     OpticalFrame frame = null;
     VerticalLayout vLayout = null;
 
-    public void enter(ViewChangeListener.ViewChangeEvent event){
+    public void enter(ViewChangeListener.ViewChangeEvent event) {
         this.init();
     }
 
@@ -19,23 +19,24 @@ public class CarLookView implements View {
 
         frame = new OpticalFrame();
 
-        vLayout.addComponents(pageHeader,frame);
+        vLayout.addComponents(pageHeader, frame);
         vLayout.setSizeUndefined();
 
         setup();
     }
 
-    public void setup() { }
+    public void setup() {
+    }
 
-    public void setPageHeaderString(String s){
+    public void setPageHeaderString(String s) {
         pageHeader.setSmallHeaderString(s);
     }
 
-    public void addComponent(Component c){
+    public void addComponent(Component c) {
         frame.addComponent(c);
     }
 
-    public void addComponents(Component ...components){
+    public void addComponents(Component... components) {
         frame.addComponents(components);
     }
 

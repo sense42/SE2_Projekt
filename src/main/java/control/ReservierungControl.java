@@ -15,19 +15,18 @@ import java.util.List;
 
 public class ReservierungControl {
 
-    public static ReservierungsResult reserviere(InseratDTO inseratDTO){
+    public static ReservierungsResult reserviere(InseratDTO inseratDTO) {
         UserDTO currentuser = (UserDTO) MyUI.getCurrent().getSession().getAttribute(Roles.CURRENT_USER);
         List<InseratDTO> inseratDTOList = getReservierteInserate(currentuser.getEmail());
 
-        for (int i = 0 ; i < inseratDTOList.size(); i++){
-            if (inseratDTOList.get(i).getId() == inseratDTO.getId()){
+        for (int i = 0; i < inseratDTOList.size(); i++) {
+            if (inseratDTOList.get(i).getId() == inseratDTO.getId()) {
                 return ReservierungsResult.INSERAT_ALREADY_RESERVED;
             }
         }
-        if (inseratDTOList.contains(inseratDTO)){
+        if (inseratDTOList.contains(inseratDTO)) {
             return ReservierungsResult.INSERAT_ALREADY_RESERVED;
-        }
-        else{
+        } else {
 
             try {
                 ReservierungDAO.getInstance().saveReservierung(new ReservierungDTO(currentuser.getEmail(), inseratDTO.getId()));
@@ -39,7 +38,7 @@ public class ReservierungControl {
         }
     }
 
-    public static List<InseratDTO> getReservierteInserate(String email){
+    public static List<InseratDTO> getReservierteInserate(String email) {
         List<ReservierungDTO> reservierungDTOList;
         List<InseratDTO> inseratDTOList = new ArrayList<>();
 
@@ -49,8 +48,7 @@ public class ReservierungControl {
             for (ReservierungDTO reservierungDTO : reservierungDTOList) {
                 inseratDTOList.add(InseratDAO.getInseratDTObyID(reservierungDTO.getInseratID()));
             }
-        }
-            catch (DBException dbException) {
+        } catch (DBException dbException) {
             dbException.printStackTrace();
         }
         return inseratDTOList;
