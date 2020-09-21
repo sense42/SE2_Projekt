@@ -54,9 +54,8 @@ public class LoginView extends VerticalLayout implements View {
             Notification.show(loginresult.getMessage());
 
             if (loginresult == LoginResult.LOGIN_ENDKUNDE_SUCCEEDED) {
-
                 UI.getCurrent().getNavigator().navigateTo(Views.FAHRZEUGSUCHE);
-            } else {
+            } else if  (loginresult == LoginResult.LOGIN_VERTRIBLER_SUCCEEDED){
                 UI.getCurrent().getNavigator().navigateTo(Views.INSERIEREN);
             }
         });
